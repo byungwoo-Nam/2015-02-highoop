@@ -4,12 +4,7 @@ import javax.swing.JMenu;
 import menus.GEColorMenu;
 import menus.GEEditMenu;
 import menus.GEFileMenu;
-import shapes.GEEllipse;
-import shapes.GEHeart;
-import shapes.GELine;
-import shapes.GEPolygon;
-import shapes.GERectangle;
-import shapes.GEText;
+import shapes.*;
 
 public class GEConstants {
 	final private static String ICON_EXTENSION = ".png";	//	icon»Æ¿Â¿⁄

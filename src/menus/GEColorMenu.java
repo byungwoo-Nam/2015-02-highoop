@@ -5,7 +5,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import constants.GEConstants;
-import constants.GEConstants.ColorMenuItems;
 
 public class GEColorMenu extends JMenu{
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의

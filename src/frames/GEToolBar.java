@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JToolBar;
 
@@ -49,10 +48,10 @@ public class GEToolBar extends JToolBar implements ActionListener{
 			if(this.panel.getDrawingShape()==null || !this.panel.getDrawingShape().getClass().getSimpleName().equals(e.getActionCommand())){
 				this.panel.setDrawingShape((GEShape)Class.forName(e.getActionCommand()).newInstance());
 			}
-			if(this.panel.getDrawingShape().getShapeType() == GEConstants.ShapeType.Complex){
-				JOptionPane.showMessageDialog(null, "구현중입니다.");
-				this.panel.setDrawingShape(null);
-			}
+//			if(this.panel.getDrawingShape().getShapeType() == GEConstants.ShapeType.Complex){
+//				JOptionPane.showMessageDialog(null, "구현중입니다.");
+//				this.panel.setDrawingShape(null);
+//			}
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

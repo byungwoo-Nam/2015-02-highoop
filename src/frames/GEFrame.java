@@ -2,8 +2,6 @@ package frames;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
 
 public class GEFrame extends JFrame {
 	
