@@ -7,8 +7,10 @@ import menus.GEFileMenu;
 import shapes.*;
 
 public class GEConstants {
-	final private static String ICON_EXTENSION = ".png";	//	icon확장자
-	final private static String ICON_PATH = "rsc/";			//	icon 폴더 경로
+	public static final int FRAME_W = 600;
+	public static final int FRAME_H = 600;
+	private static final String ICON_EXTENSION = ".png";	//	icon확장자
+	private static final String ICON_PATH = "rsc/";			//	icon 폴더 경로
 	
 	public enum ICON_KIND{
 		DEFAULT(""), 

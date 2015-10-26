@@ -11,6 +11,8 @@ public class GEEditMenu extends JMenu{
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의
 	
 	public GEEditMenu(){		
+		super();
+		
 		vectorMenuItems = new Vector<JMenuItem>();
 		for(GEConstants.EditMenuItems editMenuItems : GEConstants.EditMenuItems.values()){
 			vectorMenuItems.add(new JMenuItem(editMenuItems.getName()));

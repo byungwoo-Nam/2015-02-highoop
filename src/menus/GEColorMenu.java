@@ -10,6 +10,8 @@ public class GEColorMenu extends JMenu{
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의
 	
 	public GEColorMenu(){		
+		super();
+		
 		vectorMenuItems = new Vector<JMenuItem>();
 		for(GEConstants.ColorMenuItems colorMenuItems : GEConstants.ColorMenuItems.values()){
 			vectorMenuItems.add(new JMenuItem(colorMenuItems.getName()));

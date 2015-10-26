@@ -13,6 +13,9 @@ import shapes.GEShape;
 
 public class GEPanel extends JPanel {
 	
+	// attributes
+	private static final long serialVersionUID = 1L;
+	
 	private MouseAdapter mouseAdapter;
 	private Point start, end;
 	private Vector<GEShape> vectorGEShape = new Vector<GEShape>();

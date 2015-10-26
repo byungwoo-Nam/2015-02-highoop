@@ -13,12 +13,18 @@ import constants.GEConstants;
 import shapes.GEShape;
 
 public class GEToolBar extends JToolBar implements ActionListener{
+	
+	// attributes
+	private static final long serialVersionUID = 1L;
+	
 	private Vector<JRadioButton> vectorButtons = new Vector<JRadioButton>();
 	
 	// Association
 	private GEPanel panel;
 	
 	public GEToolBar(){
+		super();
+		
 		this.setSize(400, 100);
 		this.setBackground(Color.decode("#fafbfc"));
 		vectorButtons = new Vector<JRadioButton>();

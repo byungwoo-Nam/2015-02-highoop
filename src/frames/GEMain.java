@@ -2,10 +2,11 @@ package frames;
 import javax.swing.JFrame;
 
 public class GEMain{
+	
+	private static JFrame myFrame;
+	
 	public static void main(String[] args){
-		JFrame myFrame = new GEFrame();
-		myFrame.setSize(GEFrame.WIDTH, GEFrame.HEIGHT);
+		myFrame = new GEFrame();
 		myFrame.setVisible(true);
-		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
