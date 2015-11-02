@@ -1,38 +1,35 @@
 package shapes;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.geom.Line2D;
 
-import constants.GEConstants;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.geom.Line2D;
 
 public class GELine extends GEShape{
 	
-	private Line2D.Double line;
+	private Line2D line;
 	
     public GELine(){
-    	super();
-    	shapeType = GEConstants.ShapeType.Simple;
-    	line = new Line2D.Double();
-    	vectorShape.add(line);
+    	super(new Line2D.Double());
     }
     
     @Override
-    public void draw(Graphics2D g2D){
-    	for(Shape vector : vectorShape){
-    		g2D.draw(vector);
-    	}
-    }
-    
-    @Override
-    public void tempDraw(Graphics2D g2D, Color color){
-    	g2D.setXORMode(color);
-		draw(g2D);
-    }
-    
-    @Override
-    public void setBound(Point start, Point end){
-    	line.setLine(start, end);
-    }
+	public void initDrawing(Graphics g, Point p) {
+    	line = (Line2D.Double) shape;
+		line.setLine(p, p);
+		originPoint.setLocation(p);
+		this.draw(g);
+	}
+	@Override
+	public void keepDrawing(Graphics g, Point p) {
+		this.draw(g);
+		line.setLine(originPoint, p);
+		this.draw(g);		
+	}
+	@Override
+	public void finishDrawing(Graphics g, Point p) {
+	}
+	@Override
+	public void continueDrawing(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+	}
 }
