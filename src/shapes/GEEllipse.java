@@ -3,9 +3,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
-
 public class GEEllipse extends GEShape{
 	
+	private static final long serialVersionUID = 1L;
 	private Ellipse2D ellipse;
 	
 	public GEEllipse() {

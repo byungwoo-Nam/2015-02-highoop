@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
 import javax.swing.JPanel;
 
 import constants.GEConstant.EDrawingState;
+import entity.GEModelShape;
 import shapes.GEShape;
 
 public class GEPanel extends JPanel {
@@ -19,7 +19,6 @@ public class GEPanel extends JPanel {
 	
 	// components
 	private MouseAdapter mouseAdapter;
-	private Vector<GEShape> vectorGEShape;
 
 	// working variables
 	private GEShape currentShape;
@@ -29,22 +28,12 @@ public class GEPanel extends JPanel {
 		mouseAdapter = new MouseHandler();
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
-		this.vectorGEShape = new Vector<GEShape>();
-	}
-
-	public Object getVectorGEShape(){
-		return this.vectorGEShape;
-	}
-	
-	public void setVectorGEShape(Object obj){
-		vectorGEShape = (Vector<GEShape>)obj; 
-		repaint();
 	}
 	
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
-		for(GEShape shape : vectorGEShape){
+		for(GEShape shape : GEModelShape.getVectorGEShape()){
 			shape.draw((Graphics2D)g);
 		}
 	}
@@ -72,7 +61,7 @@ public class GEPanel extends JPanel {
 	}
 	private void finishDrawing(Point p) {
 		this.currentShape.finishDrawing(this.getGraphics(), p);	
-		this.vectorGEShape.add(currentShape);
+		GEModelShape.getVectorGEShape().add(currentShape);
 	}
 	
 	private void initMoving(Point p){

@@ -6,6 +6,7 @@ import java.awt.geom.Line2D;
 
 public class GELine extends GEShape{
 	
+	private static final long serialVersionUID = 1L;
 	private Line2D line;
 	
     public GELine(){

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 abstract public class GEShape implements Cloneable, Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	protected Shape shape;
 	protected Point originPoint;
 	

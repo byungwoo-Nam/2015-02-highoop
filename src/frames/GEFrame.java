@@ -2,7 +2,6 @@ package frames;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 
 import constants.GEConstant;
 
@@ -14,7 +13,7 @@ public class GEFrame extends JFrame{
 	// components
 	private GEMenuBar menuBar;
 	private GEToolBar toolBar;
-	private GEPanel panel;
+	private GEPanel drawingPanel;
 	
 	// association
 	
@@ -28,15 +27,18 @@ public class GEFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// components lifecycle management
-		panel = new GEPanel();
-		this.add(panel, BorderLayout.CENTER);
+		drawingPanel = new GEPanel();
+		this.add(drawingPanel, BorderLayout.CENTER);
 		
 		menuBar = new GEMenuBar();
-		menuBar.init(panel);
 		this.setJMenuBar(menuBar);
 		
 		toolBar = new GEToolBar();
-		toolBar.init(panel);
 		this.add(toolBar, BorderLayout.NORTH);
+	}
+	
+	public void init(){
+		menuBar.init(drawingPanel);
+		toolBar.init(drawingPanel);
 	}
 }

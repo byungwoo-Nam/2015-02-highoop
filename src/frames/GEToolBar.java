@@ -39,8 +39,8 @@ public class GEToolBar extends JToolBar implements ActionListener{
 		}
 	}
 
-	public void init(GEPanel panel) {
-		this.drawingPanel = panel;
+	public void init(GEPanel drawingPanel) {
+		this.drawingPanel = drawingPanel;
 		this.setBackground(Color.decode("#fafbfc"));
 		((JRadioButton)this.getComponent(GEConstant.EButtons.Rectangle.ordinal())).doClick();
 	}

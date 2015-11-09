@@ -1,10 +1,8 @@
 package frames;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import constants.GEConstant;
-import menus.GEFileMenu;
 
 public class GEMenuBar extends JMenuBar{
 
@@ -14,26 +12,21 @@ public class GEMenuBar extends JMenuBar{
 	// Association
 	private GEPanel drawingPanel;
 	
-	private JMenu menu;
-	private GEFileMenu fileMenu;
-	
 	public GEMenuBar(){
 		super();
 		
 		for(GEConstant.EMenus eMenus: GEConstant.EMenus.values()) {
-			menu = eMenus.getMenu();
+			GEMenu menu = eMenus.getMenu();
 			menu.setText(eMenus.getName());
-			if(menu.getText().equals("File")){
-				fileMenu = (GEFileMenu)menu;
-				menu = fileMenu;
-			}
 			this.add(menu);
 		}
 	}
 	
-	public void init(GEPanel panel) {
-		this.drawingPanel = panel;
-		fileMenu.setDrawingPanel(drawingPanel);
-		
+	public void init(GEPanel drawingPanel) {
+		this.drawingPanel = drawingPanel;
+		for(int i=0; i<this.getMenuCount(); i++){
+			GEMenu menu = (GEMenu) this.getMenu(i);
+			menu.init(drawingPanel);
+		}
 	}
 }

@@ -1,7 +1,6 @@
 package constants;
 
-import javax.swing.JMenu;
-
+import frames.GEMenu;
 import menus.GEColorMenu;
 import menus.GEEditMenu;
 import menus.GEFileMenu;
@@ -10,7 +9,8 @@ import shapes.*;
 public class GEConstant{
 	public static final int FRAME_W = 600;
 	public static final int FRAME_H = 600;
-	private static final String BUTTON_PATH = "rsc/";			//	버튼이미지 폴더 경로
+	public static final String SAVE_FILE_EXTENSION = "nam";		//	저장파일 확장자
+	private static final String BUTTON_PATH = "rsc/";				//	버튼이미지 폴더 경로
 	
 	public static enum EDrawingState{idle, drawingTP, drawingNP, moving};
 	
@@ -39,21 +39,20 @@ public class GEConstant{
 		public GEShape getShape(){return newShape;}
 	}
 	
-	
 	public static enum EMenus{
 		File("File", new GEFileMenu()), 
 		Edit("Edit", new GEEditMenu()), 
 		Color("Color", new GEColorMenu());
 		
 		private String name;
-		private JMenu menu;
+		private GEMenu menu;
 		
-		private EMenus(String name, JMenu menu){
+		private EMenus(String name, GEMenu menu){
 			this.name = name;
 			this.menu = menu;
 		}
 		public String getName(){return this.name;}
-		public JMenu getMenu(){return this.menu;}
+		public GEMenu getMenu(){return this.menu;}
 	};
 	
 	public static enum EFileMenuItems{

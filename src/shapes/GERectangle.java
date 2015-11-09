@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 public class GERectangle extends GEShape{
 	
+	private static final long serialVersionUID = 1L;
 	private Rectangle rectangle;
 	
     public GERectangle(){

@@ -2,12 +2,12 @@ package menus;
 
 import java.util.Vector;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import constants.GEConstant;
+import frames.GEMenu;
 
-public class GEColorMenu extends JMenu{
+public class GEColorMenu extends GEMenu{
 	
 	private static final long serialVersionUID = 1L;
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의

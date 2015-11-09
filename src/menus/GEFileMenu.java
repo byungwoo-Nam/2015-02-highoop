@@ -4,28 +4,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.File;
 import java.util.Vector;
 
-import javax.swing.JMenu;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import constants.GEConstant;
 import constants.GEConstant.EFileMenuItems;
-import frames.GEPanel;
+import entity.GEModelShape;
+import frames.GEMenu;
 
-public class GEFileMenu extends JMenu implements ActionListener {
+public class GEFileMenu extends GEMenu implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의
-	
-	// Association
-	private GEPanel drawingPanel;
 	
 	public GEFileMenu(){		
 		vectorMenuItems = new Vector<JMenuItem>();
@@ -38,26 +32,27 @@ public class GEFileMenu extends JMenu implements ActionListener {
 	}
 	
 	private void open(){
-		ObjectInputStream in;
-		try {
-			in = new ObjectInputStream(new BufferedInputStream(new FileInputStream("save.nam")));
-			Object obj = in.readObject();
-			drawingPanel.setVectorGEShape(obj);
-		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Graphics Editor(*." + GEConstant.SAVE_FILE_EXTENSION + ")", GEConstant.SAVE_FILE_EXTENSION);
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+			GEModelShape.read(chooser.getSelectedFile());
+			this.drawingPanel.repaint();
 		}
 	}
 	
 	private void save(){
-		ObjectOutputStream outputStream = null;
-		try {
-			outputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("save.nam")));
-			outputStream.writeObject(drawingPanel.getVectorGEShape()); //드로잉패널의 shape배열을 파일에 씀
-			outputStream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Graphics Editor(*." + GEConstant.SAVE_FILE_EXTENSION + ")", GEConstant.SAVE_FILE_EXTENSION);
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showSaveDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION){
+			String path = chooser.getSelectedFile().getAbsolutePath();
+			if(!path.toLowerCase().endsWith("."+GEConstant.SAVE_FILE_EXTENSION)){
+			    path += "." + GEConstant.SAVE_FILE_EXTENSION;
+			}
+			GEModelShape.save(new File(path));
 		}
 	}
 	
@@ -72,10 +67,6 @@ public class GEFileMenu extends JMenu implements ActionListener {
 		}catch(PrinterException pe){
 			pe.getStackTrace();
 		}
-	}
-	
-	public void setDrawingPanel(GEPanel panel) {
-		this.drawingPanel = panel;
 	}
 	
 	@Override
