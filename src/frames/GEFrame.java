@@ -12,7 +12,7 @@ public class GEFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	// components
-	private JMenuBar menuBar;
+	private GEMenuBar menuBar;
 	private GEToolBar toolBar;
 	private GEPanel panel;
 	
@@ -28,11 +28,12 @@ public class GEFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// components lifecycle management
-		menuBar = new GEMenuBar();
-		this.setJMenuBar(menuBar);
-		
 		panel = new GEPanel();
 		this.add(panel, BorderLayout.CENTER);
+		
+		menuBar = new GEMenuBar();
+		menuBar.init(panel);
+		this.setJMenuBar(menuBar);
 		
 		toolBar = new GEToolBar();
 		toolBar.init(panel);

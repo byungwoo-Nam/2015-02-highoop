@@ -31,6 +31,15 @@ public class GEPanel extends JPanel {
 		this.addMouseMotionListener(mouseAdapter);
 		this.vectorGEShape = new Vector<GEShape>();
 	}
+
+	public Object getVectorGEShape(){
+		return this.vectorGEShape;
+	}
+	
+	public void setVectorGEShape(Object obj){
+		vectorGEShape = (Vector<GEShape>)obj; 
+		repaint();
+	}
 	
 	@Override
 	public void paint(Graphics g){
@@ -38,6 +47,13 @@ public class GEPanel extends JPanel {
 		for(GEShape shape : vectorGEShape){
 			shape.draw((Graphics2D)g);
 		}
+	}
+	
+	private GEShape onShape(Point p){
+		if(currentShape.onShape(p)){
+			return currentShape;
+		}
+		return null;
 	}
 	
 	private void initDrawing(Point p) {
@@ -59,6 +75,16 @@ public class GEPanel extends JPanel {
 		this.vectorGEShape.add(currentShape);
 	}
 	
+	private void initMoving(Point p){
+		this.currentShape.initMoving(this.getGraphics(), p);
+	}
+	private void keepMoving(Point p){
+		this.currentShape.keepMoving(this.getGraphics(), p);
+	}
+	private void finishMoving(Point p){
+		this.currentShape.finishMoving(this.getGraphics(), p);
+	}
+	
 	private class MouseHandler extends MouseAdapter{
 		
 		private EDrawingState eDrawingState = EDrawingState.idle;
@@ -73,6 +99,12 @@ public class GEPanel extends JPanel {
 		}
 		
 		private void mouse1Clicked(MouseEvent e){
+			if (eDrawingState == EDrawingState.idle && currentShape.getClass().getSimpleName().equals("GEPolygon")) {
+				initDrawing(e.getPoint());
+				eDrawingState = EDrawingState.drawingNP;
+			} else if (eDrawingState == EDrawingState.drawingNP) {
+				continueDrawing(e.getPoint());
+			}
 		}
 		
 		private void mouse2Clicked(MouseEvent e){
@@ -84,20 +116,28 @@ public class GEPanel extends JPanel {
 		
 		@Override
 		public void mouseMoved(MouseEvent e){
+			if (eDrawingState == EDrawingState.drawingNP) {
+				keepDrawing(e.getPoint());
+			}
 		}
 		
 		@Override
 		public void mousePressed(MouseEvent e){
-			if (eDrawingState == EDrawingState.idle) {
+			if (eDrawingState == EDrawingState.idle && !currentShape.getClass().getSimpleName().equals("GEPolygon") && onShape(e.getPoint()) == null) {
 				initDrawing(e.getPoint());
-				eDrawingState = currentShape.getClass().getSimpleName().equals("GEPolygon") ? EDrawingState.drawingNP : EDrawingState.drawingTP;
+				eDrawingState = EDrawingState.drawingTP;
+			}else if(eDrawingState == EDrawingState.idle){
+				initMoving(e.getPoint());
+				eDrawingState = EDrawingState.moving;
 			}
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent e){
-			if (eDrawingState == EDrawingState.drawingTP || eDrawingState == EDrawingState.drawingNP) {
+			if (eDrawingState == EDrawingState.drawingTP) {
 				keepDrawing(e.getPoint());
+			}else if(eDrawingState == EDrawingState.moving){
+				keepMoving(e.getPoint());
 			}
 		}
 		
@@ -106,8 +146,9 @@ public class GEPanel extends JPanel {
 			if (eDrawingState == EDrawingState.drawingTP) {
 				finishDrawing(e.getPoint());
 				eDrawingState = EDrawingState.idle;
-			}else if (eDrawingState == EDrawingState.drawingNP) {
-				continueDrawing(e.getPoint());
+			}else if(eDrawingState == EDrawingState.moving){
+				finishMoving(e.getPoint());
+				eDrawingState = EDrawingState.idle;
 			}
 		}
 	}

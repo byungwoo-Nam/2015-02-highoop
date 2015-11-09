@@ -4,8 +4,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
+import java.io.Serializable;
 
-abstract public class GEShape implements Cloneable{
+abstract public class GEShape implements Cloneable, Serializable{
 	
 	protected Shape shape;
 	protected Point originPoint;
@@ -19,9 +20,15 @@ abstract public class GEShape implements Cloneable{
 		g2D.setXORMode(g2D.getBackground());
 		g2D.draw(shape);		
 	}
+    public boolean onShape(Point p){
+		return this.shape.contains(p);
+	}
     
     abstract public void initDrawing(Graphics g, Point p);
 	abstract public void keepDrawing(Graphics g, Point p);
 	abstract public void continueDrawing(Graphics g, Point p);
 	abstract public void finishDrawing(Graphics g, Point p);
+	abstract public void initMoving(Graphics g, Point p);
+	abstract public void keepMoving(Graphics g, Point p);
+	abstract public void finishMoving(Graphics g, Point p);
 }

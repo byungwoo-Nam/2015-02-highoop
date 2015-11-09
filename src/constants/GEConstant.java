@@ -12,7 +12,7 @@ public class GEConstant{
 	public static final int FRAME_H = 600;
 	private static final String BUTTON_PATH = "rsc/";			//	버튼이미지 폴더 경로
 	
-	public static enum EDrawingState{idle, drawingTP, drawingNP};
+	public static enum EDrawingState{idle, drawingTP, drawingNP, moving};
 	
 	public static enum EButtons{
 		Rectangle("rectangle.png", "rectangle_SLT.png", "rectangle_ROV.png", new GERectangle()),

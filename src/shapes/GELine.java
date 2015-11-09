@@ -32,4 +32,17 @@ public class GELine extends GEShape{
 	public void continueDrawing(Graphics g, Point p) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void initMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void keepMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void finishMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+	}
 }

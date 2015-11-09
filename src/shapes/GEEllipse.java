@@ -34,11 +34,24 @@ public class GEEllipse extends GEShape{
 	}
 	@Override
 	public void finishDrawing(Graphics g, Point p) {
-		
 	}
 	@Override
 	public void continueDrawing(Graphics g, Point p) {
 		// TODO Auto-generated method stub
-		
+	}
+	@Override
+	public void initMoving(Graphics g, Point p) {
+		originPoint.setLocation(p);
+	}
+	@Override
+	public void keepMoving(Graphics g, Point p) {
+		this.draw(g);
+		ellipse.setFrame(ellipse.getX()+p.x-originPoint.x, ellipse.getY()+p.y-originPoint.y, ellipse.getWidth(), ellipse.getHeight());
+		this.draw(g);
+		originPoint.setLocation(p);
+	}
+	@Override
+	public void finishMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
 	}
 }

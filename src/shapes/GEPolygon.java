@@ -14,12 +14,11 @@ public class GEPolygon extends GEShape{
 
 	@Override
 	public void initDrawing(Graphics g, Point p) {
-		this.polygon = (Polygon)shape;
-		this.polygon.addPoint(p.x, p.y);
-		this.polygon.addPoint(p.x, p.y);
+		polygon = (Polygon)shape;
+		polygon.addPoint(p.x, p.y);
+		polygon.addPoint(p.x, p.y);
 		this.draw(g);
 	}
-
 	@Override
 	public void keepDrawing(Graphics g, Point p) {
 		this.draw(g);
@@ -31,8 +30,24 @@ public class GEPolygon extends GEShape{
 	public void continueDrawing(Graphics g, Point p) {
 		this.polygon.addPoint(p.x, p.y);
 	}
-
 	@Override
 	public void finishDrawing(Graphics g, Point p) {
+	}
+	@Override
+	public void initMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+		originPoint.setLocation(p);
+	}
+	@Override
+	public void keepMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+		this.draw(g);
+		polygon.translate(p.x-originPoint.x, p.y-originPoint.y);
+		this.draw(g);
+		originPoint.setLocation(p);
+	}
+	@Override
+	public void finishMoving(Graphics g, Point p) {
+		// TODO Auto-generated method stub
 	}
 }
