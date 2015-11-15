@@ -23,11 +23,14 @@ public class GEPanel extends JPanel {
 	// working variables
 	private GEShape currentShape;
 	public void setCurrentShape(GEShape currentShape) { this.currentShape = currentShape; }
+	public GEShape getCurrentShape() { return this.currentShape; }
+	private boolean editStatus;
 	
 	public GEPanel(){
 		mouseAdapter = new MouseHandler();
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
+		this.setEditStatus(false);
 	}
 	
 	@Override
@@ -46,6 +49,7 @@ public class GEPanel extends JPanel {
 	}
 	
 	private void initDrawing(Point p) {
+		this.setEditStatus(true);
 		try {
 			this.currentShape = this.currentShape.getClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -72,6 +76,14 @@ public class GEPanel extends JPanel {
 	}
 	private void finishMoving(Point p){
 		this.currentShape.finishMoving(this.getGraphics(), p);
+	}
+	
+	public boolean isEditStatus() {
+		return editStatus;
+	}
+
+	public void setEditStatus(boolean editStatus) {
+		this.editStatus = editStatus;
 	}
 	
 	private class MouseHandler extends MouseAdapter{

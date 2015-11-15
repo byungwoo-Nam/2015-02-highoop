@@ -22,28 +22,31 @@ public class GEModelShape {
 		GEModelShape.vectorGEShape = vectorGEShape;
 	}
 	@SuppressWarnings("unchecked")
-	static public void read(File file){
+	static public void openGEShape(File file){
 		try {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			ObjectInputStream ois = new ObjectInputStream(bis);
-			GEModelShape.vectorGEShape = (Vector<GEShape>) ois.readObject();
+			setVectorGEShape((Vector<GEShape>) ois.readObject());
 			ois.close();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	static public void save(File file){
+	static public void saveGEShape(File file){
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(GEModelShape.vectorGEShape);
+			oos.writeObject(getVectorGEShape());
 			oos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	static public void newGEShape(){
+		setVectorGEShape(new Vector<GEShape>());
 	}
 }

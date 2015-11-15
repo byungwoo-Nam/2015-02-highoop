@@ -9,8 +9,9 @@ import shapes.*;
 public class GEConstant{
 	public static final int FRAME_W = 600;
 	public static final int FRAME_H = 600;
-	public static final String SAVE_FILE_EXTENSION = "nam";		//	저장파일 확장자
-	private static final String BUTTON_PATH = "rsc/";				//	버튼이미지 폴더 경로
+	public static final String SAVE_FILE_EXTENSION = "nam";			//	저장파일 확장자
+	public static final Object[] dialogOption={"예","아니오","취소"};	//	dialog 옵션
+	private static final String BUTTON_PATH = "rsc/";					//	버튼이미지 폴더 경로
 	
 	public static enum EDrawingState{idle, drawingTP, drawingNP, moving};
 	
