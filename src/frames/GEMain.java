@@ -6,7 +6,7 @@ public class GEMain{
 	
 	public static void main(String[] args){
 		myFrame = new GEFrame();
-		myFrame.setVisible(true);
 		myFrame.init();
+		myFrame.setVisible(true);
 	}
 }

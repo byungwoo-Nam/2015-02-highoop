@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -14,17 +15,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import constants.GEConstant;
 import constants.GEConstant.EFileMenuItems;
-import entity.GEModelShape;
+import entity.GEModel;
 import frames.GEMenu;
-import shapes.GERectangle;
-import shapes.GEShape;
 
 public class GEFileMenu extends GEMenu implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의
+	private String currentDirectory;
 	
-	public GEFileMenu(){		
+	public GEFileMenu(){
 		vectorMenuItems = new Vector<JMenuItem>();
 		for(EFileMenuItems fileMenuItems : EFileMenuItems.values()){
 			vectorMenuItems.add(new JMenuItem(fileMenuItems.getName()));
@@ -34,39 +34,42 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 		}
 	}
 	
+	public void init(){
+		try {
+			currentDirectory = (String)GEModel.read(GEConstant.SFileConfig);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void newAction(){
 		if(actionContinueCheck()){
-			GEModelShape.newGEShape();
-			try {
-				this.drawingPanel.setCurrentShape(this.drawingPanel.getCurrentShape().getClass().newInstance());
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
+			this.drawingPanel.newGEShape();
 			this.drawingPanel.repaint();
 		}
 	}
 	
 	private void openAction(){
 		if(actionContinueCheck()){
-			JFileChooser chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Graphics Editor(*." + GEConstant.SAVE_FILE_EXTENSION + ")", GEConstant.SAVE_FILE_EXTENSION);
+			JFileChooser chooser = new JFileChooser(currentDirectory);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(GEConstant.SFileDialogDescription, GEConstant.SAVE_FILE_EXTENSION);
 			chooser.setFileFilter(filter);
 			int returnVal = chooser.showOpenDialog(null);
 			if(returnVal == JFileChooser.APPROVE_OPTION){
-				GEModelShape.openGEShape(chooser.getSelectedFile());
+				this.drawingPanel.openGEShape(chooser.getSelectedFile().getName());
 				try {
 					this.drawingPanel.setCurrentShape(this.drawingPanel.getCurrentShape().getClass().newInstance());
 				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 				this.drawingPanel.repaint();
-				this.drawingPanel.setEditStatus(false);
 			}
 		}
 	}
 	
 	private void saveAction(){
-		int response = JOptionPane.showOptionDialog(null, "정말 저장하시겠습니까?", "파일 저장", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, GEConstant.dialogOption, GEConstant.dialogOption[0]);
+		int response = JOptionPane.showOptionDialog(null, GEConstant.SFileDialogMessage[0], GEConstant.SFileDialogTitle[0], JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, GEConstant.dialogOption, GEConstant.dialogOption[0]);
 		switch(response){
 			case 0 : 
 				save();
@@ -81,8 +84,8 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 	}
 	
 	private int save(){
-		JFileChooser chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Graphics Editor(*." + GEConstant.SAVE_FILE_EXTENSION + ")", GEConstant.SAVE_FILE_EXTENSION);
+		JFileChooser chooser = new JFileChooser(currentDirectory);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(GEConstant.SFileDialogDescription, GEConstant.SAVE_FILE_EXTENSION);
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showSaveDialog(null);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
@@ -90,15 +93,14 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 			if(!path.toLowerCase().endsWith("."+GEConstant.SAVE_FILE_EXTENSION)){
 			    path += "." + GEConstant.SAVE_FILE_EXTENSION;
 			}
-			GEModelShape.saveGEShape(new File(path));
-			this.drawingPanel.setEditStatus(false);
+			this.drawingPanel.saveGEShape(new File(path).getName());
 		}
 		return returnVal;
 	}
 	
 	private void closeAction(){
 		if(actionContinueCheck()){
-			GEModelShape.newGEShape();
+			this.drawingPanel.newGEShape();
 			try {
 				this.drawingPanel.setCurrentShape(this.drawingPanel.getCurrentShape().getClass().newInstance());
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -130,7 +132,7 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 	private boolean actionContinueCheck(){
 		boolean actionContinueStatus = false;
 		if(this.drawingPanel.isEditStatus()){
-			int response = JOptionPane.showOptionDialog(null, "변경된 사항을 저장하시겠습니까?", "변경 내용 확인", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, GEConstant.dialogOption, GEConstant.dialogOption[0]);
+			int response = JOptionPane.showOptionDialog(null, GEConstant.SFileDialogMessage[1], GEConstant.SFileDialogTitle[1], JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, GEConstant.dialogOption, GEConstant.dialogOption[0]);
 			switch(response){
 				case 0 : 
 					actionContinueStatus = (save() == 0) ? true : actionContinueStatus;

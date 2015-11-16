@@ -5,11 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 
 import constants.GEConstant.EDrawingState;
-import entity.GEModelShape;
+import entity.GEModel;
 import shapes.GEShape;
 
 public class GEPanel extends JPanel {
@@ -19,24 +22,62 @@ public class GEPanel extends JPanel {
 	
 	// components
 	private MouseAdapter mouseAdapter;
+	private Vector<GEShape> vectorGEShape = new Vector<GEShape>();
+	public Vector<GEShape> getVectorGEShape() { return this.vectorGEShape; }
+	public void setVectorGEShape(Vector<GEShape> vectorGEShape) { this.vectorGEShape = vectorGEShape; 	}
 
 	// working variables
 	private GEShape currentShape;
 	public void setCurrentShape(GEShape currentShape) { this.currentShape = currentShape; }
 	public GEShape getCurrentShape() { return this.currentShape; }
 	private boolean editStatus;
+	public boolean isEditStatus() { return editStatus; }
 	
 	public GEPanel(){
 		mouseAdapter = new MouseHandler();
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
-		this.setEditStatus(false);
+		this.editStatus = false;
+	}
+	
+	public void init() {
+	}
+	
+	public void newGEShape(){
+		this.setVectorGEShape(new Vector<GEShape>());
+		try {
+			this.setCurrentShape(this.getCurrentShape().getClass().newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void openGEShape(String fileName) {
+		try {
+			this.vectorGEShape = (Vector<GEShape>)GEModel.read(fileName);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.editStatus = false;
+	}
+	
+	public void saveGEShape(String fileName) {
+		try {
+			GEModel.write(fileName, this.vectorGEShape);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.editStatus = false;
 	}
 	
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);
-		for(GEShape shape : GEModelShape.getVectorGEShape()){
+		for(GEShape shape : this.getVectorGEShape()){
 			shape.draw((Graphics2D)g);
 		}
 	}
@@ -49,7 +90,7 @@ public class GEPanel extends JPanel {
 	}
 	
 	private void initDrawing(Point p) {
-		this.setEditStatus(true);
+		this.editStatus = true;
 		try {
 			this.currentShape = this.currentShape.getClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -65,10 +106,11 @@ public class GEPanel extends JPanel {
 	}
 	private void finishDrawing(Point p) {
 		this.currentShape.finishDrawing(this.getGraphics(), p);	
-		GEModelShape.getVectorGEShape().add(currentShape);
+		this.getVectorGEShape().add(currentShape);
 	}
 	
 	private void initMoving(Point p){
+		this.editStatus = true;
 		this.currentShape.initMoving(this.getGraphics(), p);
 	}
 	private void keepMoving(Point p){
@@ -76,14 +118,6 @@ public class GEPanel extends JPanel {
 	}
 	private void finishMoving(Point p){
 		this.currentShape.finishMoving(this.getGraphics(), p);
-	}
-	
-	public boolean isEditStatus() {
-		return editStatus;
-	}
-
-	public void setEditStatus(boolean editStatus) {
-		this.editStatus = editStatus;
 	}
 	
 	private class MouseHandler extends MouseAdapter{
@@ -153,4 +187,5 @@ public class GEPanel extends JPanel {
 			}
 		}
 	}
+
 }

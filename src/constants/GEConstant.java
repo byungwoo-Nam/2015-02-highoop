@@ -7,11 +7,17 @@ import menus.GEFileMenu;
 import shapes.*;
 
 public class GEConstant{
+	public static final String SProgramTitle = "Graphics Editor";	//	Program Title
 	public static final int FRAME_W = 600;
 	public static final int FRAME_H = 600;
 	public static final String SAVE_FILE_EXTENSION = "nam";			//	저장파일 확장자
 	public static final Object[] dialogOption={"예","아니오","취소"};	//	dialog 옵션
-	private static final String BUTTON_PATH = "rsc/";					//	버튼이미지 폴더 경로
+	public static final String SWorkSpace = "data\\";
+	public static final String SFileConfig = "config\\file.config";
+	public static final String SFileDialogDescription = SProgramTitle + "(*." + SAVE_FILE_EXTENSION + ")";	//	File관련 dialog Description
+	public static final String[] SFileDialogTitle = {"파일저장", "변경 내용 확인"};		//	File관련 dialog 타이틀
+	public static final String[] SFileDialogMessage = {"정말 저장하시겠습니까?", "변경된 사항을 저장하시겠습니까?"};	//	File관련 dialog 메세지
+	private static final String BUTTON_PATH = "rsc\\";					//	버튼이미지 폴더 경로
 	
 	public static enum EDrawingState{idle, drawingTP, drawingNP, moving};
 	

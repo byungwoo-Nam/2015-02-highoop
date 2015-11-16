@@ -21,8 +21,9 @@ public class GEFrame extends JFrame{
 	
 	public GEFrame(){
 		super();
+		
 		// attributes initialization
-		this.setTitle("60092478 남병우 그림판");
+		this.setTitle(GEConstant.SProgramTitle);
 		this.setSize(GEConstant.FRAME_W, GEConstant.FRAME_H);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -38,6 +39,7 @@ public class GEFrame extends JFrame{
 	}
 	
 	public void init(){
+		drawingPanel.init();
 		menuBar.init(drawingPanel);
 		toolBar.init(drawingPanel);
 	}
