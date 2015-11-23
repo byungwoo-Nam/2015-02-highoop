@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
+import constants.GEConstant;
 import constants.GEConstant.EDrawingState;
 import entity.GEModel;
 import shapes.GEShape;

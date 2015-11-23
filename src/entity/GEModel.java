@@ -27,4 +27,9 @@ public class GEModel {
 		oos.writeObject(object);
 		oos.close();
 	}
+	
+	static public boolean fileCheck(String fileName){
+		File file = new File(fileName);
+		return file.isFile() ? true : false;
+	}
 }

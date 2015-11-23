@@ -17,12 +17,14 @@ import constants.GEConstant;
 import constants.GEConstant.EFileMenuItems;
 import entity.GEModel;
 import frames.GEMenu;
+import frames.GEPanel;
 
 public class GEFileMenu extends GEMenu implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 	private Vector<JMenuItem> vectorMenuItems;  // 벡터변수 정의
 	private String currentDirectory;
+	private String fileName = null;
 	
 	public GEFileMenu(){
 		vectorMenuItems = new Vector<JMenuItem>();
@@ -34,9 +36,11 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 		}
 	}
 	
-	public void init(){
+	@Override
+	public void init(GEPanel drawingPanel){
+		super.init(drawingPanel);
 		try {
-			currentDirectory = (String)GEModel.read(GEConstant.SFileConfig);
+			currentDirectory = GEModel.fileCheck(GEConstant.SConfigWorkSpace) ? (String)GEModel.read(GEConstant.SConfigWorkSpace) : GEConstant.SDefaultWorkSpace;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,6 +49,7 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 	
 	private void newAction(){
 		if(actionContinueCheck()){
+			fileName = null;
 			this.drawingPanel.newGEShape();
 			this.drawingPanel.repaint();
 		}
@@ -57,7 +62,8 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 			chooser.setFileFilter(filter);
 			int returnVal = chooser.showOpenDialog(null);
 			if(returnVal == JFileChooser.APPROVE_OPTION){
-				this.drawingPanel.openGEShape(chooser.getSelectedFile().getName());
+				fileName = chooser.getSelectedFile().getAbsolutePath();
+				this.drawingPanel.openGEShape(fileName);
 				try {
 					this.drawingPanel.setCurrentShape(this.drawingPanel.getCurrentShape().getClass().newInstance());
 				} catch (InstantiationException | IllegalAccessException e) {
@@ -83,17 +89,48 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 		}
 	}
 	
+	private void saveAsAction(){
+		int response = JOptionPane.showOptionDialog(null, GEConstant.SFileDialogMessage[0], GEConstant.SFileDialogTitle[0], JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, GEConstant.dialogOption, GEConstant.dialogOption[0]);
+		switch(response){
+			case 0 : 
+				saveAs();
+				break;
+			case 1 :
+				break;
+			case 2 :
+				break;
+			default :
+				break;
+		}
+	}
+	
 	private int save(){
+		if(fileName == null){
+			return saveAs();
+		}else{
+			this.drawingPanel.saveGEShape(fileName);
+			return 0;
+		}
+	}
+	
+	private int saveAs(){
 		JFileChooser chooser = new JFileChooser(currentDirectory);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(GEConstant.SFileDialogDescription, GEConstant.SAVE_FILE_EXTENSION);
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showSaveDialog(null);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
-			String path = chooser.getSelectedFile().getAbsolutePath();
-			if(!path.toLowerCase().endsWith("."+GEConstant.SAVE_FILE_EXTENSION)){
-			    path += "." + GEConstant.SAVE_FILE_EXTENSION;
+			fileName = chooser.getSelectedFile().getAbsolutePath();
+			if(!fileName.toLowerCase().endsWith("."+GEConstant.SAVE_FILE_EXTENSION)){
+				fileName += "." + GEConstant.SAVE_FILE_EXTENSION;
 			}
-			this.drawingPanel.saveGEShape(new File(path).getName());
+			this.drawingPanel.saveGEShape(fileName);
+			try {
+				GEModel.write(GEConstant.SConfigWorkSpace, chooser.getCurrentDirectory().getAbsolutePath());
+				currentDirectory = chooser.getCurrentDirectory().getAbsolutePath();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return returnVal;
 	}
@@ -101,6 +138,7 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 	private void closeAction(){
 		if(actionContinueCheck()){
 			this.drawingPanel.newGEShape();
+			fileName = null;
 			try {
 				this.drawingPanel.setCurrentShape(this.drawingPanel.getCurrentShape().getClass().newInstance());
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -161,6 +199,8 @@ public class GEFileMenu extends GEMenu implements ActionListener {
 			openAction();
 		}else if(e.getActionCommand().equals(EFileMenuItems.Save.getName())){
 			saveAction();
+		}else if(e.getActionCommand().equals(EFileMenuItems.Save_As.getName())){
+			saveAsAction();
 		}else if(e.getActionCommand().equals(EFileMenuItems.Close.getName())){
 			closeAction();
 		}else if(e.getActionCommand().equals(EFileMenuItems.Print.getName())){
