@@ -15,6 +15,8 @@ import constants.GEConstant;
 import constants.GEConstant.EDrawingState;
 import entity.GEModel;
 import shapes.GEShape;
+import transformer.GEDrawer;
+import transformer.GETransformer;
 
 public class GEPanel extends JPanel {
 	
@@ -27,10 +29,13 @@ public class GEPanel extends JPanel {
 	public Vector<GEShape> getVectorGEShape() { return this.vectorGEShape; }
 	public void setVectorGEShape(Vector<GEShape> vectorGEShape) { this.vectorGEShape = vectorGEShape; 	}
 
-	// working variables
+	// association variables
 	private GEShape currentShape;
 	public void setCurrentShape(GEShape currentShape) { this.currentShape = currentShape; }
 	public GEShape getCurrentShape() { return this.currentShape; }
+	private GETransformer currentTransformer;
+	
+	// working variables
 	private boolean editStatus;
 	public boolean isEditStatus() { return editStatus; }
 	
@@ -97,16 +102,18 @@ public class GEPanel extends JPanel {
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		this.currentShape.initDrawing(this.getGraphics(), p);	
+		this.currentTransformer = new GEDrawer(this.currentShape);
+		this.currentTransformer.initTransforming(this.getGraphics(), p);
+//		this.currentShape.initDrawing(this.getGraphics(), p);	
 	}
 	private void keepDrawing(Point p) {
-		this.currentShape.keepDrawing(this.getGraphics(), p);	
+		this.currentTransformer.keepTransforming(this.getGraphics(), p);	
 	}
 	private void continueDrawing(Point p) {
-		this.currentShape.continueDrawing(this.getGraphics(), p);	
+		this.currentTransformer.continueTransforming(this.getGraphics(), p);	
 	}
 	private void finishDrawing(Point p) {
-		this.currentShape.finishDrawing(this.getGraphics(), p);	
+		this.currentTransformer.finishTransforming(this.getGraphics(), p);	
 		this.getVectorGEShape().add(currentShape);
 	}
 	

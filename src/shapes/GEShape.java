@@ -9,7 +9,8 @@ import java.io.Serializable;
 abstract public class GEShape implements Cloneable, Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	protected Shape shape;
+	private Shape shape;
+	public Shape getShape() { return this.shape; }
 	protected Point originPoint;
 	
     public GEShape(Shape shape){
@@ -25,10 +26,10 @@ abstract public class GEShape implements Cloneable, Serializable{
 		return this.shape.contains(p);
 	}
     
-    abstract public void initDrawing(Graphics g, Point p);
-	abstract public void keepDrawing(Graphics g, Point p);
-	abstract public void continueDrawing(Graphics g, Point p);
-	abstract public void finishDrawing(Graphics g, Point p);
+    abstract public void setPoint(Point p);
+	abstract public void addPoint(Point p);
+	abstract public void movePoint(Point p);
+	
 	abstract public void initMoving(Graphics g, Point p);
 	abstract public void keepMoving(Graphics g, Point p);
 	abstract public void finishMoving(Graphics g, Point p);
