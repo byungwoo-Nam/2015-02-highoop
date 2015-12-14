@@ -3,14 +3,12 @@ package frames;
 import javax.swing.JMenuBar;
 
 import constants.GEConstant;
+import menus.GEMenu;
 
 public class GEMenuBar extends JMenuBar{
 
 	// attributes
 	private static final long serialVersionUID = 1L;
-	
-	// Association
-	private GEPanel drawingPanel;
 	
 	public GEMenuBar(){
 		super();
@@ -23,7 +21,6 @@ public class GEMenuBar extends JMenuBar{
 	}
 	
 	public void init(GEPanel drawingPanel) {
-		this.drawingPanel = drawingPanel;
 		for(int i=0; i<this.getMenuCount(); i++){
 			GEMenu menu = (GEMenu) this.getMenu(i);
 			menu.init(drawingPanel);

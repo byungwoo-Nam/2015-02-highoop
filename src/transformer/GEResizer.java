@@ -1,37 +1,41 @@
 package transformer;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+
 import shapes.GEShape;
 
-public class GEDrawer extends GETransformer {
+public class GEResizer extends GETransformer {
 
-	public GEDrawer(GEShape shape) {
+	private Point origin;
+	
+	public GEResizer(GEShape shape) {
 		super(shape);
 	}
 
 	@Override
 	public void initTransforming(Graphics g, Point p) {
-		this.getShape().setPoint(p);
-		this.getShape().addPoint(p);
-//		this.getShape().draw(g);
+		origin = p;
 	}
 
 	@Override
 	public void keepTransforming(Graphics g, Point p) {
 		this.getShape().draw(g);
-		this.getShape().movePoint(p);
-		this.getShape().draw(g);		
+		this.getShape().resizeShape(new Point(p.x-origin.x, p.y-origin.y));
+		this.getShape().draw(g);
+		origin = p;
 	}
 
 	@Override
 	public void continueTransforming(Graphics g, Point p) {
-		this.getShape().addPoint(p);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void finishTransforming(Graphics g, Point p) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

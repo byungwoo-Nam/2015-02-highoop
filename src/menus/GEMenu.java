@@ -1,6 +1,8 @@
-package frames;
+package menus;
 
 import javax.swing.JMenu;
+
+import frames.GEPanel;
 
 public class GEMenu extends JMenu{
 	// attributes

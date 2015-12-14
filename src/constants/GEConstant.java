@@ -1,9 +1,11 @@
 package constants;
 
-import frames.GEMenu;
+import java.awt.Cursor;
+
 import menus.GEColorMenu;
 import menus.GEEditMenu;
 import menus.GEFileMenu;
+import menus.GEMenu;
 import shapes.*;
 
 public class GEConstant{
@@ -19,13 +21,26 @@ public class GEConstant{
 	public static final String[] SFileDialogMessage = {"정말 저장하시겠습니까?", "변경된 사항을 저장하시겠습니까?"};	//	File관련 dialog 메세지
 	private static final String BUTTON_PATH = "rsc\\";					//	버튼이미지 폴더 경로
 	
+	public static Cursor DEFAULT_CURSOR 	= new Cursor(Cursor.DEFAULT_CURSOR);
+	public static Cursor DRAW_CURSOR 		= new Cursor(Cursor.CROSSHAIR_CURSOR);
+	public static Cursor MM_CURSOR 			= new Cursor(Cursor.MOVE_CURSOR);
+	public static Cursor RR_CURSOR 			= new Cursor(Cursor.HAND_CURSOR);
+	public static Cursor EE_RESIZE_CURSOR 	= new Cursor(Cursor.E_RESIZE_CURSOR);
+	public static Cursor WW_RESIZE_CURSOR 	= new Cursor(Cursor.W_RESIZE_CURSOR);
+	public static Cursor SS_RESIZE_CURSOR 	= new Cursor(Cursor.S_RESIZE_CURSOR);
+	public static Cursor NN_RESIZE_CURSOR 	= new Cursor(Cursor.N_RESIZE_CURSOR);
+	public static Cursor SE_RESIZE_CURSOR 	= new Cursor(Cursor.SE_RESIZE_CURSOR);
+	public static Cursor NE_RESIZE_CURSOR 	= new Cursor(Cursor.NE_RESIZE_CURSOR);
+	public static Cursor SW_RESIZE_CURSOR 	= new Cursor(Cursor.SW_RESIZE_CURSOR);
+	public static Cursor NW_RESIZE_CURSOR 	= new Cursor(Cursor.NW_RESIZE_CURSOR);
+	
 	public static enum EDrawingState{idle, drawingTP, drawingNP, moving};
 	
 	public static enum EButtons{
 		Rectangle("rectangle.png", "rectangle_SLT.png", "rectangle_ROV.png", new GERectangle()),
 		Ellipse("ellipse.png", "ellipse_SLT.png", "ellipse_ROV.png", new GEEllipse()),
 		Polygon("polygon.png", "polygon_SLT.png", "polygon_ROV.png", new GEPolygon()),
-		Heart("heart.png", "heart_SLT.png", "heart_ROV.png", new GERectangle()),
+//		Heart("heart.png", "heart_SLT.png", "heart_ROV.png", new GERectangle()),
 		Line("line.png", "line_SLT.png", "line_ROV.png", new GELine()),
 		Text("text.png", "text_SLT.png", "text_ROV.png", new GERectangle());
 		

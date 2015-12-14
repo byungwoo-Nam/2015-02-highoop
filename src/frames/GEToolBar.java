@@ -24,7 +24,7 @@ public class GEToolBar extends JToolBar implements ActionListener{
 	public GEToolBar(){
 		super();
 		
-		buttonGroup = new ButtonGroup();
+		this.buttonGroup = new ButtonGroup();
 		
 		for(GEConstant.EButtons eButton: GEConstant.EButtons.values()){				
 			JRadioButton button = new JRadioButton();
@@ -35,18 +35,22 @@ public class GEToolBar extends JToolBar implements ActionListener{
 			button.setActionCommand(eButton.name());
 			button.addActionListener(this);		// 라디오버튼 리스너 등록
 			this.add(button);						// 메뉴바에 메뉴 항목 추가
-			buttonGroup.add(button);				// 버튼 그룹 항목으로 등록
+			this.buttonGroup.add(button);		// 버튼 그룹 항목으로 등록
 		}
 	}
 
 	public void init(GEPanel drawingPanel) {
-		this.drawingPanel = drawingPanel;
 		this.setBackground(Color.decode("#fafbfc"));
+		
+		// association
+		this.drawingPanel = drawingPanel;
+		
+		// association attribute
 		((JRadioButton)this.getComponent(GEConstant.EButtons.Rectangle.ordinal())).doClick();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e){
-		drawingPanel.setCurrentShape(GEConstant.EButtons.valueOf(e.getActionCommand()).getShape());	
+		drawingPanel.setCurrentTool(GEConstant.EButtons.valueOf(e.getActionCommand()).getShape());	
 	}
 }

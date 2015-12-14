@@ -28,19 +28,21 @@ public class GEFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// components lifecycle management
-		drawingPanel = new GEPanel();
-		this.add(drawingPanel, BorderLayout.CENTER);
-		
-		menuBar = new GEMenuBar();
+		this.menuBar = new GEMenuBar();
 		this.setJMenuBar(menuBar);
 		
-		toolBar = new GEToolBar();
+		this.drawingPanel = new GEPanel();
+		this.add(drawingPanel, BorderLayout.CENTER);
+		
+		this.toolBar = new GEToolBar();
 		this.add(toolBar, BorderLayout.NORTH);
 	}
 	
 	public void init(){
-		drawingPanel.init();
-		menuBar.init(drawingPanel);
-		toolBar.init(drawingPanel);
+		this.menuBar.init(drawingPanel);
+		this.toolBar.init(drawingPanel);
+		this.drawingPanel.init();
+		
+		this.setVisible(true);
 	}
 }

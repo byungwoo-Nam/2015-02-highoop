@@ -1,6 +1,5 @@
 package shapes;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -26,20 +25,13 @@ public class GERectangle extends GEShape{
 	public void movePoint(Point p) {
 		this.rectangle.setSize(p.x-this.rectangle.x, p.y-this.rectangle.y);
 	}
-
 	@Override
-	public void initMoving(Graphics g, Point p) {
-		originPoint.setLocation(p);
+	public void moveShape(Point p) {
+		this.rectangle.setLocation(this.rectangle.x+p.x, this.rectangle.y+p.y);
 	}
 	@Override
-	public void keepMoving(Graphics g, Point p) {
-		this.draw(g);
-		rectangle.setLocation(rectangle.x+p.x-originPoint.x, rectangle.y+p.y-originPoint.y);
-		this.draw(g);
-		originPoint.setLocation(p);
-	}
-	@Override
-	public void finishMoving(Graphics g, Point p) {
-		// TODO Auto-generated method stub
+	public void resizeShape(Point p){
+		this.rectangle.width = this.rectangle.width + p.x;
+		this.rectangle.height = this.rectangle.height + p.y;
 	}
 }

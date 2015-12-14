@@ -6,7 +6,7 @@ import java.awt.Point;
 import shapes.GEShape;
 
 public abstract class GETransformer {
-	private GEShape shape;
+	protected GEShape shape;
 	// drawing, moving, resizing, rotating
 	public GETransformer(GEShape shape) {
 		this.shape = shape;
